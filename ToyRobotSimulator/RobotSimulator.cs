@@ -21,6 +21,10 @@ namespace ToyRobotSimulator
             {
                 _toyRobot.TurnLeft();
             }
+            else if (command == "RIGHT")
+            {
+                _toyRobot.TurnRight();
+            }
         }
     }
 }
