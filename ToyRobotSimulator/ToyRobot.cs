@@ -5,13 +5,9 @@ namespace ToyRobotSimulator
 
     public class ToyRobot
     {
-        private const int MinXValue = 0;
-        private const int MinYValue = 0;
-        private const int MaxXValue = 5;
-        private const int MaxYValue = 5;
-
         public Position Position { get; private set; }
         public Direction Direction { get; private set; }
+
         public ToyRobot(int x, int y, Direction direction)
         {
             Position = new Position(x, y);
@@ -28,7 +24,7 @@ namespace ToyRobotSimulator
 
         public void Place(Position position, Direction direction)
         {
-            if (position.X < MinXValue || position.X > MaxXValue || position.Y < MinYValue || position.Y > MaxYValue) return;
+            if (!new Table().IsValidPosition(position)) return;
 
             Position = position;
             Direction = direction;
