@@ -17,7 +17,7 @@
             {
                 _toyRobot.MoveForward();
             }
-            else if (command == "LEFT")
+            else if (command == "LEFT" && isRobotOnTable)
             {
                 _toyRobot.TurnLeft();
             }
