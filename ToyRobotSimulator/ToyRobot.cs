@@ -1,4 +1,6 @@
-﻿namespace ToyRobotSimulator
+﻿using System.Collections.Generic;
+
+namespace ToyRobotSimulator
 {
 
     public class ToyRobot
@@ -24,31 +26,15 @@
 
         public void TurnLeft()
         {
-            Direction newDirection;
-            switch (Direction)
+            var turnLeftMapping = new Dictionary<Direction, Direction>
             {
-                case Direction.East:
-                    newDirection = Direction.North;
-                    break;
+                { Direction.East, Direction.North },
+                { Direction.South, Direction.East },
+                { Direction.West, Direction.South },
+                { Direction.North, Direction.West }
+            };
 
-                case Direction.South:
-                    newDirection = Direction.East;
-                    break;
-
-                case Direction.West:
-                    newDirection = Direction.South;
-                    break;
-
-                case Direction.North:
-                    newDirection = Direction.West;
-                    break;
-
-                default:
-                    newDirection = Direction;
-                    break;
-            }
-
-            Direction = newDirection;
+            Direction = turnLeftMapping[Direction];
         }
     }
 }
