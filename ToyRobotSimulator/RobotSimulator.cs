@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ToyRobotSimulator
+﻿namespace ToyRobotSimulator
 {
     public class RobotSimulator
     {
@@ -13,7 +11,9 @@ namespace ToyRobotSimulator
 
         public string ProcessCommand(string command)
         {
-            if (command == "MOVE")
+            var isRobotOnTable = _toyRobot.IsOnTable;
+
+            if (command == "MOVE" && isRobotOnTable)
             {
                 _toyRobot.MoveForward();
             }

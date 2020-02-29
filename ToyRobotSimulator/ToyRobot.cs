@@ -9,6 +9,8 @@ namespace ToyRobotSimulator
         public Position Position { get; private set; }
         public Direction Direction { get; private set; }
 
+        public bool IsOnTable => Position.X > -1 && Position.Y > -1;
+
         public ToyRobot(int x, int y, Direction direction, ITable table)
         {
             Position = new Position(x, y);
@@ -16,7 +18,11 @@ namespace ToyRobotSimulator
             _table = table;
         }
 
-        public ToyRobot(Direction direction) : this(0, 0, direction, new Table())
+        public ToyRobot(int x, int y, Direction direction) : this(x, y, direction, new Table())
+        {
+        }
+
+        public ToyRobot(Direction direction) : this(-1, -1, direction)
         {
         }
 

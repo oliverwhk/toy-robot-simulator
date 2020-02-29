@@ -4,17 +4,30 @@ using Xunit;
 
 namespace ToyRobotSimulator.Tests
 {
-    public class ToyRobotSimulatorTest
+    public class RobotSimulatorTest
     {
         [Fact]
-        public void ProcessCommandOfMove_ShouldInvokeToyRobotMoveForward()
+        public void GivenRobotOnTable_WhenProcessCommandOfMove_ShouldInvokeRobotMoveForward()
         {
             var toyRobotMock = new Mock<IToyRobot>();
             var simulator = new RobotSimulator(toyRobotMock.Object);
+            toyRobotMock.Setup(x => x.IsOnTable).Returns(true);
 
             simulator.ProcessCommand("MOVE");
 
             toyRobotMock.Verify(x => x.MoveForward());
+        }
+        
+        [Fact]
+        public void GivenRobotNotOnTable_WhenProcessCommandOfMove_ThenNotInvokeRobotMoveForward()
+        {
+            var toyRobotMock = new Mock<IToyRobot>();
+            var simulator = new RobotSimulator(toyRobotMock.Object);
+            toyRobotMock.Setup(x => x.IsOnTable).Returns(false);
+
+            simulator.ProcessCommand("MOVE");
+
+            toyRobotMock.Verify(x => x.MoveForward(), Times.Never);
         }
         
         [Fact]

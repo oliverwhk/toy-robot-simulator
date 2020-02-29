@@ -4,6 +4,7 @@
     {
         Position Position { get; }
         Direction Direction { get; }
+        bool IsOnTable { get; }
 
         void Place(Position position, Direction direction);
         void TurnLeft();

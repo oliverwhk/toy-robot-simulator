@@ -8,6 +8,22 @@ namespace ToyRobotSimulator.Tests
     public class ToyRobotTest
     {
         [Fact]
+        public void GivenRobotWithDefaultPosition_WhenIsOnTable_ThenReturnFalse()
+        {
+            var robot = new ToyRobot(Direction.South);
+            var isOnTable = robot.IsOnTable;
+            isOnTable.Should().BeFalse();
+        }
+        
+        [Fact]
+        public void GivenRobotWithValidPosition_WhenIsOnTable_ThenReturnTrue()
+        {
+            var robot = new ToyRobot(1, 2, Direction.South);
+            var isOnTable = robot.IsOnTable;
+            isOnTable.Should().BeTrue();
+        }
+
+        [Fact]
         public void PlaceAtValidPositionWithDirection_ShouldSetPositionAndDirection()
         {
             var tableMock = new Mock<ITable>();
