@@ -7,11 +7,14 @@ namespace ToyRobotSimulator
     {
         public Position Position { get; private set; }
         public Direction Direction { get; private set; }
-
-        public ToyRobot(Direction direction)
+        public ToyRobot(int x, int y, Direction direction)
         {
+            Position = new Position(x, y);
             Direction = direction;
-            Position = new Position(0, 0);
+        }
+
+        public ToyRobot(Direction direction) : this(0, 0, direction)
+        {
         }
 
         public ToyRobot() : this(Direction.East)
@@ -48,6 +51,33 @@ namespace ToyRobotSimulator
             };
 
             Direction = turnRightMapping[Direction];
+        }
+
+        public void MoveForward()
+        {
+            var newX = Position.X;
+            var newY = Position.Y;
+
+            switch (Direction)
+            {
+                case Direction.East:
+                    newX++;
+                    break;
+
+                case Direction.South:
+                    newY--;
+                    break;
+
+                case Direction.West:
+                    newX--;
+                    break;
+
+                case Direction.North:
+                    newY++;
+                    break;
+            }
+
+            Position = new Position(newX, newY);
         }
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
 
@@ -42,5 +44,22 @@ namespace ToyRobotSimulator.Tests
 
             robot.Direction.Should().Be(expectedDirection);
         }
+
+        [Theory]
+        [MemberData(nameof(MoveForwardData))]
+        public void GivenRobotLocationAndDirection_WhenMove_ThenOneUnitForward(Position initialPosition, Direction initialDirection, Position expectedPosition)
+        {
+            var robot = new ToyRobot(initialPosition.X, initialPosition.Y, initialDirection);
+            robot.MoveForward();
+            robot.Position.Should().BeEquivalentTo(expectedPosition);
+        }
+
+        public static IEnumerable<object[]> MoveForwardData => new List<object[]>
+        {
+            new object[]{ new Position(1, 1), Direction.East, new Position(2, 1) },
+            new object[]{ new Position(4, 3), Direction.South, new Position(4, 2) },
+            new object[]{ new Position(2, 2), Direction.West, new Position(1, 2) },
+            new object[]{ new Position(1, 4), Direction.North, new Position(1, 5) },
+        };
     }
 }
