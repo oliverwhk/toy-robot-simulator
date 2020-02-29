@@ -63,10 +63,14 @@ namespace ToyRobotSimulator.Tests
 
         [Theory]
         [MemberData(nameof(MoveForwardData))]
-        public void GivenRobotLocationAndDirection_WhenMove_ThenOneUnitForward(Position initialPosition, Direction initialDirection, Position expectedPosition)
+        public void GivenRobotLocationAndDirection_WhenMoveForwardToValidPosition_ThenOneUnitForward(Position initialPosition, Direction initialDirection, Position expectedPosition)
         {
-            var robot = new ToyRobot(initialPosition.X, initialPosition.Y, initialDirection, new Table());
+            var tableMock = new Mock<ITable>();
+            var robot = new ToyRobot(initialPosition.X, initialPosition.Y, initialDirection, tableMock.Object);
+            tableMock.Setup(x => x.IsValidPosition(It.IsAny<Position>())).Returns(true);
+
             robot.MoveForward();
+
             robot.Position.Should().BeEquivalentTo(expectedPosition);
         }
 
@@ -77,5 +81,18 @@ namespace ToyRobotSimulator.Tests
             new object[]{ new Position(2, 2), Direction.West, new Position(1, 2) },
             new object[]{ new Position(1, 4), Direction.North, new Position(1, 5) },
         };
+
+        [Fact]
+        public void GivenRobotLocationAndDirection_WhenMoveForwardToInvalidPosition_ThenKeepOriginalPosition()
+        {
+            var tableMock = new Mock<ITable>();
+            var robot = new ToyRobot(1, 0, Direction.North, tableMock.Object);
+            var newPosition = new Position(6, 1);
+            tableMock.Setup(x => x.IsValidPosition(newPosition)).Returns(false);
+
+            robot.MoveForward();
+
+            robot.Position.Should().BeEquivalentTo(new Position(1, 0));
+        }
     }
 }
