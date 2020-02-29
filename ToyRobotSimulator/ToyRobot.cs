@@ -2,8 +2,7 @@
 
 namespace ToyRobotSimulator
 {
-
-    public class ToyRobot
+    public class ToyRobot : IToyRobot
     {
         private readonly ITable _table;
 

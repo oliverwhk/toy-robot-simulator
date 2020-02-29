@@ -8,7 +8,7 @@ namespace ToyRobotSimulator.Tests
     public class ToyRobotTest
     {
         [Fact]
-        public void PlaceAtValidPositionWithDirection_ThenSetPositionAndDirection()
+        public void PlaceAtValidPositionWithDirection_ShouldSetPositionAndDirection()
         {
             var tableMock = new Mock<ITable>();
             var robot = new ToyRobot(1, 2, Direction.East, tableMock.Object);
