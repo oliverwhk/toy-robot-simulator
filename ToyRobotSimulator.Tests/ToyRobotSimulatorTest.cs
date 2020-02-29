@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace ToyRobotSimulator.Tests
@@ -36,6 +37,16 @@ namespace ToyRobotSimulator.Tests
             simulator.ProcessCommand("RIGHT");
 
             toyRobotMock.Verify(x => x.TurnRight());
+        }
+        
+        [Fact]
+        public void ProcessCommandOfReport_ShouldReturnToyRobotPositionAndDirection()
+        {
+            var simulator = new RobotSimulator(new ToyRobot(2, 3, Direction.South, new Mock<ITable>().Object));
+
+            var result = simulator.ProcessCommand("REPORT");
+
+            result.Should().Be("2,3,SOUTH");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace ToyRobotSimulator
             _toyRobot = toyRobot;
         }
 
-        public void ProcessCommand(string command)
+        public string ProcessCommand(string command)
         {
             if (command == "MOVE")
             {
@@ -25,6 +25,12 @@ namespace ToyRobotSimulator
             {
                 _toyRobot.TurnRight();
             }
+            else if (command == "REPORT")
+            {
+                return $"{_toyRobot.Position.X},{_toyRobot.Position.Y},{_toyRobot.Direction.ToString().ToUpper()}";
+            }
+
+            return null;
         }
     }
 }
