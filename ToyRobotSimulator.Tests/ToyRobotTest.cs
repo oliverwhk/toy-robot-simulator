@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
@@ -7,17 +6,43 @@ namespace ToyRobotSimulator.Tests
 {
     public class ToyRobotTest
     {
-        [Fact]
-        public void PlaceShouldSetPositionAndDirectionCorrectly()
+        [Theory]
+        [MemberData(nameof(PlaceData))]
+        public void PlaceAtValidPositionWithDirection_ThenSetPositionAndDirection(Position position, Direction direction)
         {
             var robot = new ToyRobot();
 
-            robot.Place(new Position(1, 2), Direction.North);
+            robot.Place(position, direction);
 
-            robot.Position.X.Should().Be(1);
-            robot.Position.Y.Should().Be(2);
-            robot.Direction.Should().Be(Direction.North);
+            robot.Position.Should().BeEquivalentTo(position);
+            robot.Direction.Should().Be(direction);
         }
+
+        public static IEnumerable<object[]> PlaceData => new List<object[]>
+        {
+            new object[]{ new Position(1, 2), Direction.North},
+            new object[]{ new Position(0, 0), Direction.South},
+            new object[]{ new Position(5, 5), Direction.East},
+        };
+        
+        [Theory]
+        [MemberData(nameof(PlaceInvalidPositionData))]
+        public void GivenRobotPositionAndLocation_WhenPlaceAtInvalidPositionWithDirection_ThenKeepOriginalPositionAndDirection(Position position, Direction direction)
+        {
+            var robot = new ToyRobot(1, 2, Direction.South);
+
+            robot.Place(position, direction);
+
+            robot.Position.Should().BeEquivalentTo(new Position(1, 2));
+            robot.Direction.Should().Be(Direction.South);
+        }
+
+        public static IEnumerable<object[]> PlaceInvalidPositionData => new List<object[]>
+        {
+            new object[]{ new Position(-1, 2), Direction.West},
+            new object[]{ new Position(6, 4), Direction.North},
+            new object[]{ new Position(5, 7), Direction.North},
+        };
 
         [Theory]
         [InlineData(Direction.East, Direction.North)]

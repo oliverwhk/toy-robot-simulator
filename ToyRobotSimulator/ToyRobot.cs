@@ -23,6 +23,8 @@ namespace ToyRobotSimulator
 
         public void Place(Position position, Direction direction)
         {
+            if (position.X < 0 || position.X > 5 || position.Y < 0 || position.Y > 5) return;
+
             Position = position;
             Direction = direction;
         }
