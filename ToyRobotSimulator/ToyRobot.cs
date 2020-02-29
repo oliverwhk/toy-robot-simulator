@@ -36,5 +36,18 @@ namespace ToyRobotSimulator
 
             Direction = turnLeftMapping[Direction];
         }
+
+        public void TurnRight()
+        {
+            var turnRightMapping = new Dictionary<Direction, Direction>
+            {
+                { Direction.East, Direction.South },
+                { Direction.South, Direction.West },
+                { Direction.West, Direction.North },
+                { Direction.North, Direction.East }
+            };
+
+            Direction = turnRightMapping[Direction];
+        }
     }
 }

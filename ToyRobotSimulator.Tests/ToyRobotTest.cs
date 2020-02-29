@@ -29,5 +29,18 @@ namespace ToyRobotSimulator.Tests
 
             robot.Direction.Should().Be(expectedDirection);
         }
+        
+        [Theory]
+        [InlineData(Direction.East, Direction.South)]
+        [InlineData(Direction.South, Direction.West)]
+        [InlineData(Direction.West, Direction.North)]
+        [InlineData(Direction.North, Direction.East)]
+        public void GivenRobotDirection_WhenTurnRight_ThenFaceCorrectDirection(Direction initialDirection, Direction expectedDirection)
+        {
+            var robot = new ToyRobot(initialDirection);
+            robot.TurnRight();
+
+            robot.Direction.Should().Be(expectedDirection);
+        }
     }
 }
