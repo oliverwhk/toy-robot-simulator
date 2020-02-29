@@ -10,10 +10,10 @@ namespace ToyRobotSimulator.Tests
         {
             var robot = new ToyRobot();
 
-            robot.Place(1, 2, Direction.North);
+            robot.Place(new Position(1, 2), Direction.North);
 
-            robot.X.Should().Be(1);
-            robot.Y.Should().Be(2);
+            robot.Position.X.Should().Be(1);
+            robot.Position.Y.Should().Be(2);
             robot.Direction.Should().Be(Direction.North);
         }
     }
