@@ -15,5 +15,16 @@ namespace ToyRobotSimulator.Tests
 
             toyRobotMock.Verify(x => x.MoveForward());
         }
+        
+        [Fact]
+        public void ProcessCommandOfLeft_ShouldInvokeToyRobotTurnLeft()
+        {
+            var toyRobotMock = new Mock<IToyRobot>();
+            var simulator = new RobotSimulator(toyRobotMock.Object);
+
+            simulator.ProcessCommand("LEFT");
+
+            toyRobotMock.Verify(x => x.TurnLeft());
+        }
     }
 }
