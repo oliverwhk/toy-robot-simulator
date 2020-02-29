@@ -1,6 +1,6 @@
 ﻿namespace ToyRobotSimulator
 {
-    public class Table
+    public class Table : ITable
     {
         private const int MinX = 0;
         private const int MinY = 0;

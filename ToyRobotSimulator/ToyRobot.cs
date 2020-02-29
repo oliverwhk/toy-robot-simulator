@@ -5,16 +5,19 @@ namespace ToyRobotSimulator
 
     public class ToyRobot
     {
+        private readonly ITable _table;
+
         public Position Position { get; private set; }
         public Direction Direction { get; private set; }
 
-        public ToyRobot(int x, int y, Direction direction)
+        public ToyRobot(int x, int y, Direction direction, ITable table)
         {
             Position = new Position(x, y);
             Direction = direction;
+            _table = table;
         }
 
-        public ToyRobot(Direction direction) : this(0, 0, direction)
+        public ToyRobot(Direction direction) : this(0, 0, direction, new Table())
         {
         }
 
@@ -24,7 +27,7 @@ namespace ToyRobotSimulator
 
         public void Place(Position position, Direction direction)
         {
-            if (!new Table().IsValidPosition(position)) return;
+            if (!_table.IsValidPosition(position)) return;
 
             Position = position;
             Direction = direction;

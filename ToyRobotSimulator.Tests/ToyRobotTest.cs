@@ -1,48 +1,39 @@
 using System.Collections.Generic;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace ToyRobotSimulator.Tests
 {
     public class ToyRobotTest
     {
-        [Theory]
-        [MemberData(nameof(PlaceData))]
-        public void PlaceAtValidPositionWithDirection_ThenSetPositionAndDirection(Position position, Direction direction)
+        [Fact]
+        public void PlaceAtValidPositionWithDirection_ThenSetPositionAndDirection()
         {
-            var robot = new ToyRobot();
+            var tableMock = new Mock<ITable>();
+            var robot = new ToyRobot(1, 2, Direction.East, tableMock.Object);
+            var newPosition = new Position(3, 4);
+            tableMock.Setup(x => x.IsValidPosition(newPosition)).Returns(true);
 
-            robot.Place(position, direction);
+            robot.Place(newPosition, Direction.West);
 
-            robot.Position.Should().BeEquivalentTo(position);
-            robot.Direction.Should().Be(direction);
+            robot.Position.Should().BeEquivalentTo(newPosition);
+            robot.Direction.Should().Be(Direction.West);
         }
 
-        public static IEnumerable<object[]> PlaceData => new List<object[]>
+        [Fact]
+        public void GivenRobotPositionAndLocation_WhenPlaceAtInvalidPositionWithDirection_ThenKeepOriginalPositionAndDirection()
         {
-            new object[]{ new Position(1, 2), Direction.North},
-            new object[]{ new Position(0, 0), Direction.South},
-            new object[]{ new Position(5, 5), Direction.East},
-        };
-        
-        [Theory]
-        [MemberData(nameof(PlaceInvalidPositionData))]
-        public void GivenRobotPositionAndLocation_WhenPlaceAtInvalidPositionWithDirection_ThenKeepOriginalPositionAndDirection(Position position, Direction direction)
-        {
-            var robot = new ToyRobot(1, 2, Direction.South);
+            var tableMock = new Mock<ITable>();
+            var robot = new ToyRobot(1, 2, Direction.South, tableMock.Object);
+            var newPosition = new Position(-1, 4);
+            tableMock.Setup(x => x.IsValidPosition(newPosition)).Returns(false);
 
-            robot.Place(position, direction);
+            robot.Place(newPosition, Direction.North);
 
             robot.Position.Should().BeEquivalentTo(new Position(1, 2));
             robot.Direction.Should().Be(Direction.South);
         }
-
-        public static IEnumerable<object[]> PlaceInvalidPositionData => new List<object[]>
-        {
-            new object[]{ new Position(-1, 2), Direction.West},
-            new object[]{ new Position(6, 4), Direction.North},
-            new object[]{ new Position(5, 7), Direction.North},
-        };
 
         [Theory]
         [InlineData(Direction.East, Direction.North)]
@@ -74,7 +65,7 @@ namespace ToyRobotSimulator.Tests
         [MemberData(nameof(MoveForwardData))]
         public void GivenRobotLocationAndDirection_WhenMove_ThenOneUnitForward(Position initialPosition, Direction initialDirection, Position expectedPosition)
         {
-            var robot = new ToyRobot(initialPosition.X, initialPosition.Y, initialDirection);
+            var robot = new ToyRobot(initialPosition.X, initialPosition.Y, initialDirection, new Table());
             robot.MoveForward();
             robot.Position.Should().BeEquivalentTo(expectedPosition);
         }
