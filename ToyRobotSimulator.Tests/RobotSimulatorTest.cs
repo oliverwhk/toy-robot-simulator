@@ -55,14 +55,27 @@ namespace ToyRobotSimulator.Tests
         }
         
         [Fact]
-        public void ProcessCommandOfRight_ShouldInvokeToyRobotTurnRight()
+        public void GivenRobotOnTable_WhenProcessCommandOfRight_ThenInvokeRobotTurnRight()
         {
             var toyRobotMock = new Mock<IToyRobot>();
             var simulator = new RobotSimulator(toyRobotMock.Object);
+            toyRobotMock.Setup(x => x.IsOnTable).Returns(true);
 
             simulator.ProcessCommand("RIGHT");
 
             toyRobotMock.Verify(x => x.TurnRight());
+        }
+        
+        [Fact]
+        public void GivenRobotNotOnTable_WhenProcessCommandOfRight_ThenNotInvokeRobotTurnRight()
+        {
+            var toyRobotMock = new Mock<IToyRobot>();
+            var simulator = new RobotSimulator(toyRobotMock.Object);
+            toyRobotMock.Setup(x => x.IsOnTable).Returns(false);
+
+            simulator.ProcessCommand("RIGHT");
+
+            toyRobotMock.Verify(x => x.TurnRight(), Times.Never);
         }
         
         [Fact]
