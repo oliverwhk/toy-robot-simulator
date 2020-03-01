@@ -15,12 +15,8 @@ namespace ToyRobotSimulator
         {
             if (command.StartsWith("PLACE"))
             {
-                var spaceSplits = command.Split(' ');
-                var commaSplits = spaceSplits[1].Split(',');
-                var x = int.Parse(commaSplits[0]);
-                var y = int.Parse(commaSplits[1]);
-                var direction = (Direction) Enum.Parse(typeof(Direction), commaSplits[2], true);
-                _toyRobot.Place(new Position(x, y), direction);
+                var placeCommand = PlaceCommand.Parse(command);
+                _toyRobot.Place(placeCommand.Position, placeCommand.Direction);
                 
                 return null;
             }
