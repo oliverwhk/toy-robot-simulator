@@ -79,13 +79,29 @@ namespace ToyRobotSimulator.Tests
         }
         
         [Fact]
-        public void ProcessCommandOfReport_ShouldReturnToyRobotPositionAndDirection()
+        public void GivenRobotOnTable_WhenProcessCommandOfReport_ThenReturnToyRobotPositionAndDirection()
         {
-            var simulator = new RobotSimulator(new ToyRobot(2, 3, Direction.South, new Mock<ITable>().Object));
+            var toyRobotMock = new Mock<IToyRobot>();
+            var simulator = new RobotSimulator(toyRobotMock.Object);
+            toyRobotMock.Setup(x => x.IsOnTable).Returns(true);
+            toyRobotMock.Setup(x => x.Position).Returns(new Position(2, 3));
+            toyRobotMock.Setup(x => x.Direction).Returns(Direction.South);
 
             var result = simulator.ProcessCommand("REPORT");
 
             result.Should().Be("2,3,SOUTH");
+        }
+        
+        [Fact]
+        public void GivenRobotNotOnTable_WhenProcessCommandOfReport_ThenReturnNull()
+        {
+            var toyRobotMock = new Mock<IToyRobot>();
+            var simulator = new RobotSimulator(toyRobotMock.Object);
+            toyRobotMock.Setup(x => x.IsOnTable).Returns(false);
+
+            var result = simulator.ProcessCommand("REPORT");
+
+            result.Should().BeNull();
         }
     }
 }

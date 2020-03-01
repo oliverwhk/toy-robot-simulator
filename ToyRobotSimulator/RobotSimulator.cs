@@ -25,7 +25,7 @@
             {
                 _toyRobot.TurnRight();
             }
-            else if (command == "REPORT")
+            else if (command == "REPORT" && isRobotOnTable)
             {
                 return $"{_toyRobot.Position.X},{_toyRobot.Position.Y},{_toyRobot.Direction.ToString().ToUpper()}";
             }
