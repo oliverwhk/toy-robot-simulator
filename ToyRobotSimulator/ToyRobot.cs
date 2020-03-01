@@ -26,6 +26,10 @@ namespace ToyRobotSimulator
         {
         }
 
+        public ToyRobot() : this(Direction.East)
+        {
+        }
+
         public void Place(Position position, Direction direction)
         {
             if (!_table.IsValidPosition(position)) return;

@@ -10,7 +10,7 @@ namespace ToyRobotSimulator.Tests
         [Fact]
         public void GivenRobotWithDefaultPosition_WhenIsOnTable_ThenReturnFalse()
         {
-            var robot = new ToyRobot(Direction.South);
+            var robot = new ToyRobot();
             var isOnTable = robot.IsOnTable;
             isOnTable.Should().BeFalse();
         }
