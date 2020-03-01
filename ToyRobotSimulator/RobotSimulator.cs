@@ -1,4 +1,6 @@
-﻿namespace ToyRobotSimulator
+﻿using System;
+
+namespace ToyRobotSimulator
 {
     public class RobotSimulator
     {
@@ -11,6 +13,16 @@
 
         public string ProcessCommand(string command)
         {
+            if (command.StartsWith("PLACE"))
+            {
+                var spaceSplits = command.Split(' ');
+                var commaSplits = spaceSplits[1].Split(',');
+                var x = int.Parse(commaSplits[0]);
+                var y = int.Parse(commaSplits[1]);
+                var direction = (Direction) Enum.Parse(typeof(Direction), commaSplits[2], true);
+                _toyRobot.Place(new Position(x, y), direction);
+            }
+
             var isRobotOnTable = _toyRobot.IsOnTable;
 
             if (command == "REPORT" && isRobotOnTable)

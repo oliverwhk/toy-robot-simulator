@@ -103,5 +103,16 @@ namespace ToyRobotSimulator.Tests
 
             result.Should().BeNull();
         }
+
+        [Fact]
+        public void ProcessCommandOfPlace_ShouldInvokeRobotPlace()
+        {
+            var toyRobotMock = new Mock<IToyRobot>();
+            var simulator = new RobotSimulator(toyRobotMock.Object);
+
+            simulator.ProcessCommand("PLACE 1,2,NORTH");
+
+            toyRobotMock.Verify(x => x.Place(It.Is<Position>(p => p.X == 1 && p.Y == 2), Direction.North));
+        }
     }
 }
