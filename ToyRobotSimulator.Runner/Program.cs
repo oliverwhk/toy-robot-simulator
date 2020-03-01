@@ -27,7 +27,8 @@ Use any following commands:
 ";
             Console.WriteLine(description);
             var toyRobot = new ToyRobot();
-            var simulator = new RobotSimulator(toyRobot);
+            var placeCommandParser = new PlaceCommandParser();
+            var simulator = new RobotSimulator(toyRobot, placeCommandParser);
 
             string command;
             do

@@ -5,18 +5,23 @@ namespace ToyRobotSimulator
     public class RobotSimulator
     {
         private readonly IToyRobot _toyRobot;
+        private readonly IPlaceCommandParser _placeCommandParser;
 
-        public RobotSimulator(IToyRobot toyRobot)
+        public RobotSimulator(IToyRobot toyRobot, IPlaceCommandParser placeCommandParser)
         {
             _toyRobot = toyRobot;
+            _placeCommandParser = placeCommandParser;
         }
 
         public string ProcessCommand(string command)
         {
             if (command.StartsWith("PLACE"))
             {
-                var placeCommand = PlaceCommand.Parse(command);
-                _toyRobot.Place(placeCommand.Position, placeCommand.Direction);
+                var placeCommand = _placeCommandParser.Parse(command);
+                if (placeCommand != null)
+                {
+                    _toyRobot.Place(placeCommand.Position, placeCommand.Direction);
+                }
                 
                 return null;
             }
